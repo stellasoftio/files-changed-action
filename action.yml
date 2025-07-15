@@ -1,6 +1,6 @@
 name: 'Files Changed Action'
 description: 'Check if certain files have changed.'
-author: 'Chad Adams'
+author: 'StellaSoft'
 branding:
   icon: 'file'
   color: 'green'
