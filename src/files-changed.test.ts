@@ -211,12 +211,14 @@ describe('checkFilesChanged', () => {
     vi.mocked(execSync).mockReturnValue(Buffer.from('src/file1.ts\nother.js'));
   });
 
-  it('should throw error when no file paths provided', () => {
+  it('should throw error when no file paths provided', async () => {
+    vi.resetModules();
     vi.doMock('./constants', () => ({
       FILE_PATHS: []
     }));
+    const { checkFilesChanged } = await import('./files-changed');
 
-    expect(() => checkFilesChanged()).toThrowError(
+    expect(() => checkFilesChanged()).toThrow(
       'No file paths provided. Please set the file-paths input.'
     );
   });
