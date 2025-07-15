@@ -22,8 +22,8 @@ A GitHub action that checks if specific files have been changed in pull requests
 ## Inputs
 
 | Input        | Description                                | Required | Default |
-| ------------ | ------------------------------------------ | -------- | ------- | ---- |
-| `file-paths` | A list of file paths to check for changes. |          | `true`  | `[]` |
+| ------------ | ------------------------------------------ | -------- | ------- |
+| `file-paths` | A list of file paths to check for changes. | `true`   | `[]`    |
 
 ## Outputs
 
