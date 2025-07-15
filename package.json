@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "type-check": "tsc --noEmit",
-    "build": "npm run type-check && esbuild src/main.ts --bundle --platform=node --outfile=dist/index.js"
+    "build": "npm run type-check && esbuild src/main.ts --bundle --platform=node --outfile=dist/index.js",
+    "test": "vitest",
+    "lint": "oxlint src/**/*.ts"
   },
   "repository": {
     "type": "git",
