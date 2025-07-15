@@ -1,4 +1,4 @@
-name: 'Files Changed Action'
+name: 'Files Changed'
 description: 'Check if certain files have changed.'
 author: 'StellaSoft'
 branding:
