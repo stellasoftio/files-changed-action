@@ -13,7 +13,7 @@ A GitHub action that checks if specific files have been changed in pull requests
       some-directory/**
 
 - name: Deploy some app
-  if: steps.files-changed.outputs.files-changed == 'true'
+  if: steps.files-changed.outputs.files_changed == 'true'
   run: |
     echo "Deploying some app..."
     # Add your deployment commands here
