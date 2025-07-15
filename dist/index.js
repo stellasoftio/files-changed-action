@@ -26188,13 +26188,13 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
   }
 });
 
-// src/main.ts
+// src/files-changed.ts
 var import_github = __toESM(require_github());
 
 // src/constants.ts
 var FILE_PATHS = (process.env["INPUT_FILE-PATHS"] || "").split("\n").map((path2) => path2.trim()).filter((path2) => !!path2);
 
-// src/main.ts
+// src/files-changed.ts
 var import_child_process = require("child_process");
 
 // node_modules/tinyglobby/dist/index.mjs
@@ -26414,33 +26414,59 @@ function globSync(patternsOrOptions, options) {
   return crawl(opts, cwd, true);
 }
 
-// src/main.ts
+// src/files-changed.ts
 var import_core = __toESM(require_core());
-(async () => {
-  if (!FILE_PATHS.length) {
-    throw new Error("No file paths provided. Please set the file-paths input.");
-  }
-  const baseBranch = import_github.context.payload.pull_request?.base?.ref || "main";
-  console.log(`Comparing changes wtih base branch: ${baseBranch}`);
-  console.log(`Fetching ${baseBranch} branch...`);
-  (0, import_child_process.execFileSync)("git", ["fetch", "origin", baseBranch], { stdio: "inherit" });
-  const matchedFiles = globSync(FILE_PATHS, {
+function getBaseBranch() {
+  return import_github.context.payload.pull_request?.base?.ref || "main";
+}
+function fetchBranch(branch) {
+  console.log(`Fetching ${branch} branch...`);
+  (0, import_child_process.execFileSync)("git", ["fetch", "origin", branch], { stdio: "inherit" });
+}
+function getMatchedFiles(filePaths) {
+  return globSync(filePaths, {
     absolute: false,
     onlyFiles: true
   });
-  const filesChanged = (0, import_child_process.execSync)("git diff --name-only FETCH_HEAD HEAD").toString().trim().split("\n");
+}
+function getChangedFiles() {
+  const output = (0, import_child_process.execSync)("git diff --name-only FETCH_HEAD HEAD").toString().trim();
+  return output ? output.split("\n") : [];
+}
+function findMatchingFiles(matchedFiles, changedFiles) {
+  return matchedFiles.filter((file) => changedFiles.includes(file));
+}
+function logResults(changedFiles, matchingFiles) {
   console.log("Files changed");
-  filesChanged.forEach((file) => console.log(file));
-  const filesFound = matchedFiles.filter((file) => filesChanged.includes(file));
-  if (filesFound.length) {
+  changedFiles.forEach((file) => console.log(file));
+  if (matchingFiles.length) {
     console.log(`
-Found ${filesFound.length} matching files:`);
-    filesFound.forEach((file) => console.log(file));
+Found ${matchingFiles.length} matching files:`);
+    matchingFiles.forEach((file) => console.log(file));
   } else {
     console.log("\nNo matching files found.");
   }
-  console.log(`files_changed: ${filesChanged.length > 0}`);
-  (0, import_core.setOutput)("files_changed", filesChanged.length > 0);
+  console.log(`files_changed: ${changedFiles.length > 0}`);
+}
+function checkFilesChanged() {
+  if (!FILE_PATHS.length) {
+    throw new Error("No file paths provided. Please set the file-paths input.");
+  }
+  const baseBranch = getBaseBranch();
+  console.log(`Comparing changes with base branch: ${baseBranch}`);
+  fetchBranch(baseBranch);
+  const matchedFiles = getMatchedFiles(FILE_PATHS);
+  const filesChanged = getChangedFiles();
+  const filesFound = findMatchingFiles(matchedFiles, filesChanged);
+  logResults(filesChanged, filesFound);
+  const hasChanges = filesFound.length > 0;
+  console.log(`files_changed: ${hasChanges}`);
+  (0, import_core.setOutput)("files_changed", hasChanges);
+}
+
+// src/main.ts
+(() => {
+  checkFilesChanged();
 })();
 /*! Bundled license information:
 
