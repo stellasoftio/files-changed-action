@@ -2,7 +2,7 @@ name: 'Files Changed Action'
 description: 'Check if certain files have changed.'
 author: 'StellaSoft'
 branding:
-  icon: 'file'
+  icon: 'file-text'
   color: 'green'
 
 inputs:
