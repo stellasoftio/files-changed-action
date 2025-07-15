@@ -1,0 +1,15 @@
+name: 'Files Changed Action'
+description: 'Check if certain files have changed.'
+author: 'StellaSoft'
+branding:
+  icon: 'file'
+  color: 'green'
+
+inputs:
+  file-paths:
+    description: 'File paths to check for changes, separated by new lines'
+    required: true
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
