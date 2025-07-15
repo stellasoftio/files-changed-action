@@ -1,5 +1,10 @@
 name: 'Files Changed Action'
 description: 'Check if certain files have changed.'
+author: 'Chad Adams'
+branding:
+  icon: 'file'
+  color: 'green'
+
 inputs:
   file-paths:
     description: 'File paths to check for changes, separated by new lines'
