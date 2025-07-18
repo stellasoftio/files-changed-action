@@ -1,6 +1,6 @@
 # Files Changed Action
 
-A GitHub action that checks if specific files have been changed in pull requests.
+A GitHub action that checks if certain files have been changed in pull requests.
 
 ## 🚀 Usage
 
